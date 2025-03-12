@@ -14,12 +14,12 @@ public class ChallengeTest {
                 {1,1},
                 {1,0}
         };
-        // implementation goes here
+        int[][] actual = underTest.processBoard(input);
         int[][] expected = {
                 {1,1},
                 {1,1}
         };
-        assertEquals(expected, input);
+        assertEquals(expected, actual);
     }
 
     @Test

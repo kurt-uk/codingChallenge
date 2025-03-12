@@ -34,18 +34,44 @@ public class Challenge {
     private final int LIVE = 1;
     private final int DEAD = 0;
 
+    private final int DYING = 2;
+
+    private final int BACK_TO_LIFE = 3;
+
     private int[][] DIRECTIONS = {{-1,-1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1,1}};
 
     public int[][] processBoard(int[][] board) {
         int m = board.length;
         int n = board[0].length;
 
+        int[][] newBoard = new int[m][n];
+
         for (int i = 0; i < m; i++) {
-            for (int l = 0; l < n; n++) {
+            for (int l = 0; l < n; l++) {
                 int liveCells = countLiveCells(board, i, l, m, n);
+
+                if (board[i][l] == LIVE && (liveCells < 2 || liveCells > 3)) {
+                    newBoard[i][l] = DEAD;
+                }
+
+                if (board[i][l] == DEAD && liveCells == 3) {
+                    newBoard[i][l] = LIVE;
+                }
             }
         }
-        return null;
+
+//        for (int i = 0; i < m; i++) {
+//            for (int l = 0; l < n; n++) {
+//                if (board[i][l] == DYING) {
+//                    board[i][l] = DEAD;
+//                }
+//                if (board[i][l] == BACK_TO_LIFE) {
+//                    board[i][l] = LIVE;
+//                }
+//            }
+//            }
+
+        return newBoard;
 
     }
 
@@ -55,7 +81,7 @@ public class Challenge {
             int newRow = row + item[0];
             int newColumn = column + item[1];
 
-            if (newRow >= 0 && newColumn >=0 && newRow <= m && newColumn <= n) {
+            if (newRow >= 0 && newColumn >=0 && newRow < m && newColumn < n) {
                 if (board[newRow][newColumn] == LIVE) {
                     counter++;
                 }
